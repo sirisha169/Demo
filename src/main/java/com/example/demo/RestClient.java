@@ -22,8 +22,8 @@ public class RestClient implements CommandLineRunner{
          RestTemplate restTemplate1 = new RestTemplate();
         List<LinkedHashMap<String, Object>> capaignsMap = restTemplate.getForObject(REST_SERVICE_URI, List.class);
           List<String> listIds = new ArrayList<String>();
-          int clicks = 0;
-          int impressions = 0;
+         
+         
           
           System.out.println("Getting ids from campaigns");
         if(capaignsMap!=null){
@@ -40,22 +40,27 @@ public class RestClient implements CommandLineRunner{
         List<LinkedHashMap<String, Object>> creativesMap = restTemplate1.getForObject(REST_SERVICE_URII, List.class);
         
           if(creativesMap!=null){
-            for(LinkedHashMap<String, Object> map : creativesMap)
-            {
-                for (String temp : listIds) {
-			        if( temp.equals(map.get("parentId").toString()))
+        	  for (String temp : listIds) {
+           
+              
+                	 int clicks = 0;
+                	 int impressions = 0;
+                	 for(LinkedHashMap<String, Object> map : creativesMap)
+                	 {
+                		 if( temp.equals(map.get("parentId").toString()))
 			            {
 			             clicks= clicks +((Integer) map.get("clicks")).intValue();
 			             impressions = impressions +((Integer) map.get("impressions")).intValue();
 			            }
-		    }
-           
+                	 }
+ 			        System.out.print(" Campaign  ID " + temp+ "      ");
+ 			        System.out.print("Total number of clicks  ::  " + clicks+ "      ");
+ 			        System.out.println("Total number of impressions ::  " + impressions);           
             }
         }else{
             System.out.println("No creative exist----------");
         }
-          System.out.println("Total number of clicks ::  " + clicks);
-          System.out.println("Total number of impressions ::  " + impressions);
+        
           
     }
 
